@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
-using System.IO;
-using UnityEngine.Animations;
+// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
 
 public class TextOnAccidentalKeys : TextOnKeys
 {

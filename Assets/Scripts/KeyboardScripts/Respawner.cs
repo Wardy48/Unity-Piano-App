@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
 using UnityEngine;
 
 public class Respawner : MonoBehaviour

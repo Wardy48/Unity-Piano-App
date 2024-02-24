@@ -1,30 +1,51 @@
-/* using UnityEngine;
-using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using SFB; // Namespace for StandaloneFileBrowser
+using UnityEditor;
+using System.IO;
+using UnityEngine.Networking;
 
 public class ImageLoader : MonoBehaviour
 {
-    [SerializeField] Image displayImage;
-
-    public void LoadImage()
+    string path;
+    [SerializeField] RawImage image;
+    private void Awake()
     {
-        // Open file
-        var paths = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
-        if (paths.Length > 0)
+        image = GetComponentInChildren<RawImage>();
+    }
+
+    public void OpenExplorer()
+    {
+        path = EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
+        GetImage();
+    }
+
+    void GetImage()
+    {
+        if (path != null)
         {
-            // Read the bytes from the file
-            byte[] imageData = File.ReadAllBytes(paths[0]);
-
-            // Create a texture
-            Texture2D tex = new Texture2D(2, 2);
-            tex.LoadImage(imageData);
-
-            // Create a new sprite
-            Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-
-            // Assign the sprite to the Image component
-            displayImage.sprite = sprite;
+            UpdateImage();
         }
     }
-} */
+
+    void UpdateImage()
+    {
+        StartCoroutine(DownloadImage());
+    }
+
+    IEnumerator DownloadImage()
+    {
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture("file:///" + path);
+        yield return request.SendWebRequest();
+
+        if ((request.result == UnityWebRequest.Result.ConnectionError) || (request.result == UnityWebRequest.Result.ProtocolError))
+        {
+            Debug.Log(request.error);
+        }
+        else
+        {
+            image.texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+        }
+    }
+}

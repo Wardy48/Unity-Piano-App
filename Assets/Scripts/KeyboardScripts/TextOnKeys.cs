@@ -1,11 +1,7 @@
-using System.Collections;
+// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
-using System.IO;
-using UnityEngine.Animations;
 
 public class TextOnKeys : MonoBehaviour
 {

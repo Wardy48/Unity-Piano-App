@@ -1,10 +1,7 @@
-using System.Collections;
+// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using Unity.VisualScripting;
-using JetBrains.Annotations;
-using UnityEditor.Animations;
 
 public class ItalianKeysToPiano : MonoBehaviour
 {  
