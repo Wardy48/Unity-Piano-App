@@ -74,3 +74,4 @@ crashlytics-build.properties
 *.log
 Logs/AssetImportWorker0.log
 Logs/AssetImportWorker1.log
+*.log
