@@ -17,8 +17,11 @@ public class ImageLoader : MonoBehaviour
 
     public void OpenExplorer()
     {
+        // I'm actually not sure whether I need "#if UNITY_EDITOR" here, just trying to fix a bug that doesn't let me build the app.
+        #if UNITY_EDITOR
         path = EditorUtility.OpenFilePanel("Overwrite with png", "", "png");
         GetImage();
+        #endif
     }
 
     void GetImage()

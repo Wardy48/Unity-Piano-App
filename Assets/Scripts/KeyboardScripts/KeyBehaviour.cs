@@ -1,4 +1,3 @@
-// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
 using UnityEngine;
 
 public class KeyBehaviour : MonoBehaviour

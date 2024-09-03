@@ -1,5 +1,3 @@
-// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
-
 // INHERITANCE. The following class, like TextOnAccidentalKeys, performs all the same actions from TextOnKeys.
 public class TextOnNaturalKeys : TextOnKeys
 {

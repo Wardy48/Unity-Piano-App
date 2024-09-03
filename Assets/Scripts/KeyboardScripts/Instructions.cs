@@ -10,19 +10,19 @@ public class Instructions : MonoBehaviour
     void Start()
     {
         instructions.text = "<b>Toggle most of the texts on the keys:</b>\n"
-        +"Right shift\n\n"
+        +"<i>Right Shift</i>\n\n"
         +"<b>Toggle separation line for computer keyboard reference:</b>\n"
-        +"Tab\n\n"
+        +"<i>Tab</i>\n\n"
+        +"<b>Change octaves:</b>\n"
+        +"<i>Left Arrow</i> and <i>Right Arrow</i>\n\n"
         +"<b>Play notes:</b>\n"
-        +"Q through to the rightmost key of Q’s row"
-        +"(what computer key this is depends on your keyboard variant) play the naturals"
-        +"up to the second E/Mi."
-        +"The keys above this row play the corresponding accidentals.\n"
-        +"Left shift through to the key next to right shift"
-        +"(again, what computer key this is will depend)"
-        +"play the naturals from the second F/Fa to the far right’s B/Si."
-        +"The keys above this row are the corresponding accidentals.\n"
-        +"I understand this may not be the best fit for your keyboard. "
-        +"Unfortunately, Unity only takes key codes for US keyboards.";
+        +"The naturals from the first A/La (A0/La0 on the first octaves set) up to the second E/Mi (E1/Mi2 on the first octaves set)\n"
+        +"are played by <i>Q</i> through to two keys to the right of <i>P</i> (what computer key this is depends on your keyboard variant).\n"
+        +"The computer keys above this row play the corresponding accidentals.\n"
+        +"The naturals from the second F/Fa (F1/Fa2 on the first octaves set) to the far right’s B/Si (B3/Si3 on the first octaves set)\n"
+        +"are played by <i>Left Shift</i> through to three keys to the right of <i>M</i> (again, what computer key this is depends on your keyboard variant).\n"
+        +"Again, the computer keys above this row play the corresponding accidentals.\n\n"
+        +"<b>Because of compatibility being limited to ANSI keyboards,</b>\n"
+        +"<b>the key between <i>Left Shift</i> and <i>Z</i> on ISO keyboards is not usable. However, you can still play all piano keys.</b>";
     }
 }

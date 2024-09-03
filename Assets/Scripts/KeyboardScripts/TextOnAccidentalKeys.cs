@@ -1,5 +1,3 @@
-// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
-
 public class TextOnAccidentalKeys : TextOnKeys
 {
     protected override void SetToAlphabeticalNotation()
