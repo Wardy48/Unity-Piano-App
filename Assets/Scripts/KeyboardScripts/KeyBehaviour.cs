@@ -3,15 +3,15 @@ using UnityEngine;
 public class KeyBehaviour : MonoBehaviour
 {
     private int selectedNotesSet;
-    private AudioSource audioSource0;
-    private AudioSource audioSource1;
-    private AudioSource audioSource2;
-    private AudioSource audioSource3;
-    private AudioSource audioSource4;
-    private AudioSource audioSource5;
-    private AudioSource audioSource6;
-    private AudioSource audioSource7;
-    private AudioSource[] allAudioSources;
+    [SerializeField] private AudioSource audioSource0;
+    [SerializeField] private AudioSource audioSource1;
+    [SerializeField] private AudioSource audioSource2;
+    [SerializeField] private AudioSource audioSource3;
+    [SerializeField] private AudioSource audioSource4;
+    [SerializeField] private AudioSource audioSource5;
+    [SerializeField] private AudioSource audioSource6;
+    [SerializeField] private AudioSource audioSource7;
+    [SerializeField] private AudioSource[] allAudioSources;
 
     private Color originalSpriteColour;
     private Color originalColour;
@@ -34,7 +34,7 @@ public class KeyBehaviour : MonoBehaviour
 
         // Get the AudioSource components attached to the GameObject
         // I made this array on the basis of this online post, which explains that they map to components on the object from top to bottom: https://gamedev.stackexchange.com/questions/63818/how-do-i-have-multiple-audio-sources-on-a-single-object-in-unity
-        // Each one of these audio sources has a note applied, from the lowest possible to the highest possible for how the keyboard is set up.
+        // Each one of these audio sources has a note applied, from the lowest possible to the highest possible tone for how the keyboard is set up (depending on how far on the keyboard the user has scrolled).
         allAudioSources = GetComponents<AudioSource>();
         audioSource0 = allAudioSources[0];
         audioSource1 = allAudioSources[1];
@@ -45,6 +45,7 @@ public class KeyBehaviour : MonoBehaviour
         audioSource6 = allAudioSources[6];
         audioSource7 = allAudioSources[7];
         // The sound clips for the piano will be courtesy of the University of Iowa: https://theremin.music.uiowa.edu/MISpiano.html
+        // Or at least, of a person I found on GitHub that curated the uni's notes for people like me.
         GrabSelectedNotesSetFromItalianKeysToPiano();
     }
 
