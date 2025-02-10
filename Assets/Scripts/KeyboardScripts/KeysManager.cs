@@ -5,16 +5,17 @@ using System.IO;
 public class KeysManager : MonoBehaviour
 {  
     // ENCAPSULATION. Between here and Start() are examples of me making variables only accessible where they are needed. I have done the same in the other scripts.
+    // The "internal" access modifier is not being used, as this is a single project.
     public static KeysManager Instance { get; private set; }
     private Dictionary<KeyCode, GameObject> keyboardToPianoMap;
     public int selectedNotesSet {get; private set; }
 
     void Awake()
     {
-        EnsureOnlyOneInstanceOfThisObjectExists();
+        EnsureExactlyOneInstanceOfThisObjectExists();
     }
 
-    void EnsureOnlyOneInstanceOfThisObjectExists()
+    void EnsureExactlyOneInstanceOfThisObjectExists()
     {
         if (Instance == null) {Instance = this;} else {Destroy(gameObject); return;}
     }
@@ -107,7 +108,7 @@ public class KeysManager : MonoBehaviour
         {
             GameManager.StopAllSounds();
             selectedNotesSet = ShiftNotesInputLeft();
-            Debug.Log(selectedNotesSet);
+            Debug.Log($"Selected notes set: {selectedNotesSet}");
             HandleKeysSpawning();
             CommunicateNotesSelectionToAllTextDisplays();
         }
@@ -116,7 +117,7 @@ public class KeysManager : MonoBehaviour
         {
             GameManager.StopAllSounds();
             selectedNotesSet = ShiftNotesInputRight();
-            Debug.Log(selectedNotesSet);
+            Debug.Log($"Selected notes set: {selectedNotesSet}");
             HandleKeysSpawning();
             CommunicateNotesSelectionToAllTextDisplays();
         }
@@ -162,9 +163,8 @@ public class KeysManager : MonoBehaviour
 
     private void PlayPianoKey(GameObject gameObject)
     {
-        KeyBehaviour keyBehaviour = gameObject.GetComponent<KeyBehaviour>();
-
-        if (keyBehaviour != null)
+        
+        if (gameObject.TryGetComponent<KeyBehaviour>(out var keyBehaviour))
         {
             keyBehaviour.PlayTone(selectedNotesSet);
         }
@@ -176,9 +176,8 @@ public class KeysManager : MonoBehaviour
 
     private void LetGoOfPianoKey(GameObject gameObject)
     {
-        KeyBehaviour keyBehaviour = gameObject.GetComponent<KeyBehaviour>();
-
-        if (keyBehaviour != null)
+        
+        if (gameObject.TryGetComponent<KeyBehaviour>(out var keyBehaviour))
         {
             keyBehaviour.StopTone(selectedNotesSet);
         }

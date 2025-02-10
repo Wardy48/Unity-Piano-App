@@ -1,7 +1,9 @@
+// ABSTRACTION. In this, like in all parent classes of the project, I have organised code into methods as needed for clarity.
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+// Note: other classes from other scripts will inherit from this class, giving more sense to some of the things on it.
 public class TextOnKeys : MonoBehaviour
 {
     protected TMP_Text m_TextComponent;
@@ -14,8 +16,7 @@ public class TextOnKeys : MonoBehaviour
     protected readonly List<string> syllabicAccidentals = new List<string>() { "La# ", "Do# ", "Re# ", "Fa# ", "S.l# " };
     protected TMP_Text keyText;
 
-    // ABSTRACTION. In this, like in all parent classes of the project, I have organised code into methods as needed for clarity.
-    public virtual void UpdateText(int notesSetForTextUpdate)
+    public void UpdateText(int notesSetForTextUpdate)
     {
         ChooseNotationTypeToDisplay();
         ChooseNumberToDisplay(notesSetForTextUpdate);

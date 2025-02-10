@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class KeyBehaviour : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class KeyBehaviour : MonoBehaviour
     private Color originalSpriteColour;
     private Color originalColour;
     private SpriteRenderer spriteRenderer;
+    private string colourToUseForTheKeys;
 
     // Start is called before the first frame update
     void Start()
@@ -24,14 +27,54 @@ public class KeyBehaviour : MonoBehaviour
     }
     
     public void ChangeKeyColourBecauseTheKeyIsBeingPressed()
-    {
-        Renderer renderer = GetComponent<Renderer>();
+    {        
+        // This renderer is specialised for 2D sprites.
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if(spriteRenderer.color.r == 0 && spriteRenderer.color.g == 0 && spriteRenderer.color.b == 0)
+
+        bool keyIsBlack = spriteRenderer.color.r == 0 && spriteRenderer.color.g == 0 && spriteRenderer.color.b == 0;
+        
+        if(keyIsBlack)
         {
+            // Changes the key to white, only for the time the sprite colour is being applied.
             spriteRenderer.color = new Color(1f, 1f, 1f);
-        }    
-        renderer.material.color = new Color(0.96f, 0.96f, 0.86f);
+        }
+
+        // This is the more core renderer.
+        Renderer renderer = GetComponent<Renderer>();
+        
+        // Choose which colour to use on the core renderer.
+        if (MainManager.Instance != null && MainManager.Instance.selectedColour != null)
+        {
+            colourToUseForTheKeys = MainManager.Instance.selectedColour;
+            switch (colourToUseForTheKeys)
+            {
+                case "yellow":
+                    renderer.material.color = new Color(0.96f, 0.96f, 0.86f);
+                    break;
+                case "green":
+                    renderer.material.color = new Color(0.077f, 0.377f, 0.079f);
+                    break;
+                case "blue":
+                    renderer.material.color = new Color(0.036f, 0.041f, 0.453f);
+                    break;
+                case "red":
+                    renderer.material.color = new Color(0.736f, 0.101f, 0.22f);
+                    break;
+                default:
+                    renderer.material.color = new Color(0.96f, 0.96f, 0.86f);
+                    Debug.Log("Colour not recognised. Defaulted to yellow.");
+                    break;
+            }
+            Debug.Log($"Changing the colour of the selected key to {colourToUseForTheKeys}.");
+        } else if (MainManager.Instance != null)
+        {
+            renderer.material.color = new Color(0.96f, 0.96f, 0.86f);
+            Debug.Log("The Main Manager instance was found, but its selected colour for keys' selection was null. Defaulted to yellow.");
+        } else
+        {
+            renderer.material.color = new Color(0.96f, 0.96f, 0.86f);
+            Debug.Log("No Main Manager instance found. Defaulted to yellow highlighting of selected keys.");
+        }
     }
 
     public void ChangeKeyColourBecauseTheKeyIsReleased()

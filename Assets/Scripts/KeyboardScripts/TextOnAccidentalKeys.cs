@@ -1,5 +1,6 @@
 public class TextOnAccidentalKeys : TextOnKeys
 {
+   // When you read transform.parent.parent, it's because this script will be attached to TMP Text objects. Their parent is their canvas, and their canvas's parent is the key that canvas is of, a key which will have the tag being sought here.
     protected override void SetToAlphabeticalNotation()
     {
         if (transform.parent.parent.CompareTag("La#"))
@@ -46,6 +47,6 @@ public class TextOnAccidentalKeys : TextOnKeys
             notationBasedText = syllabicAccidentals[4];
         }
         alphabeticalNotation = false;
-        // NOT using the base of this method, I instead did something special (and felicitous) with the font size.
+        // NOT using the base of this method, I instead did something special (and felicitous) with the font size that is not done in the text on natural keys (at the time of writing this).
     }
 }

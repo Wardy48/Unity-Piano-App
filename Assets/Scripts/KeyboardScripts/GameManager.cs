@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,16 +27,16 @@ public class GameManager : MonoBehaviour
 
     void ToggleTextOnKeys(Transform parent)
     {
-        TextOnNaturalKeys textOnNaturalKeys = leftmostKeyText.GetComponent<TextOnNaturalKeys>();
-        bool alphabeticalNotation = textOnNaturalKeys.alphabeticalNotation;
+        bool alphabeticalNotation = SeeWhichNotationIsEnabled();
         for (int i = 0; i < parent.childCount; i++)
         {
+            // Both the "NATURALS" parent and "ACCIDENTALS" parent have mostly keys as their children, but also four empty objects as children (two for "NATURALS" and two for "ACCIDENTALS") that are the parents of other keys in the same way, but these parents' tag names contain "Respawn". Hence, the following "if" statement toggles/untoggles text from children that do not contain "Respawn" in the tag name, and reiterates itself for those that do, treating the latter children as parents.
             if(!parent.GetChild(i).tag.Contains("Respawn"))
             {
-                Transform key = parent.GetChild(i);
+                Transform pianoKey = parent.GetChild(i);
                 if(alphabeticalNotation)
-                {ToggleIfNotLabelledLa(key);}
-                else{ToggleIfNotLabelledDo(key);}
+                {ToggleIfNotLabelledLa(pianoKey);}
+                else{ToggleIfNotLabelledDo(pianoKey);}
             } else
             {
                 ToggleTextOnKeys(parent.GetChild(i));
@@ -43,25 +44,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void ToggleIfNotLabelledLa(Transform child)
+    bool SeeWhichNotationIsEnabled()
     {
-        Transform canvasOfTheKey = child.GetChild(0);
-       if ((!child.CompareTag("La")) && canvasOfTheKey.gameObject.activeSelf)
+        // We will do this by checking the text notation on the leftmost key of the keyboard ("A0 - La0 TMP Text") see the serialized field further up called "leftmostKeyText" that allows us to assign that object via the Unity editor.
+        TextOnNaturalKeys textOnNaturalKeys = leftmostKeyText.GetComponent<TextOnNaturalKeys>();
+        bool alphabeticalNotation = textOnNaturalKeys.alphabeticalNotation; 
+        return alphabeticalNotation;
+    }
+
+    void ToggleIfNotLabelledLa(Transform pianoKey)
+    {
+        Transform canvasOfTheKey = pianoKey.GetChild(0);
+       if ((!pianoKey.CompareTag("La")) && canvasOfTheKey.gameObject.activeSelf)
        {
             canvasOfTheKey.gameObject.SetActive(false);
-       } else if (!child.CompareTag("La"))
+       } else if (!pianoKey.CompareTag("La"))
        {
             canvasOfTheKey.gameObject.SetActive(true);
        }
     }
 
-    void ToggleIfNotLabelledDo(Transform child)
+    void ToggleIfNotLabelledDo(Transform pianoKey)
     {
-        Transform canvasOfTheKey = child.GetChild(0);
-       if ((!child.CompareTag("Do")) && canvasOfTheKey.gameObject.activeSelf)
+        Transform canvasOfTheKey = pianoKey.GetChild(0);
+       if ((!pianoKey.CompareTag("Do")) && canvasOfTheKey.gameObject.activeSelf)
        {
             canvasOfTheKey.gameObject.SetActive(false);
-       } else if (!child.CompareTag("Do"))
+       } else if (!pianoKey.CompareTag("Do"))
        {
             canvasOfTheKey.gameObject.SetActive(true);
        }
@@ -95,7 +104,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void StopAllSounds()
+    internal static void StopAllSounds()
     {
         AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
 
