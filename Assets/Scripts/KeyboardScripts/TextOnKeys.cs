@@ -1,4 +1,3 @@
-// IMPORTANT: I deleted the unnecessary default namespaces that are created in every new C# script automatically
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -8,7 +7,6 @@ public class TextOnKeys : MonoBehaviour
     protected TMP_Text m_TextComponent;
     protected string notationBasedText;
     public bool alphabeticalNotation;
-    protected int selectedNotesSet;
     protected int numberToDisplay;
     protected readonly List<string> alphabeticalNotes = new List<string>() { "A", "B", "C", "D", "E", "F", "G" };
     protected readonly List<string> syllabicNotes = new List<string>() { "La", "Si", "Do", "Re", "Mi", "Fa", "Sol" };
@@ -17,77 +15,14 @@ public class TextOnKeys : MonoBehaviour
     protected TMP_Text keyText;
 
     // ABSTRACTION. In this, like in all parent classes of the project, I have organised code into methods as needed for clarity.
-    public virtual void UpdateText()
+    public virtual void UpdateText(int notesSetForTextUpdate)
     {
-        ChooseNoteToDisplay();
-        GrabSelectedNotesSetFromItalianKeysToPiano();
-        ChooseNumberToDisplay();
-        WriteTextOnTheKeyAndCheckForOutOfBounds();
+        ChooseNotationTypeToDisplay();
+        ChooseNumberToDisplay(notesSetForTextUpdate);
+        WriteTextOnTheKey();
     }
 
-    protected int GrabSelectedNotesSetFromItalianKeysToPiano()
-    {
-        GameObject gameManager = GameObject.Find("Game Manager");
-
-        if (gameManager != null)
-        {
-            ItalianKeysToPiano italianKeysToPiano = gameManager.GetComponent<ItalianKeysToPiano>();
-
-            if (italianKeysToPiano != null)
-            {
-                selectedNotesSet = italianKeysToPiano.SelectedNotesSet;
-            }
-            else
-            {
-                Debug.Log("Game Manager does not have ItalianKeysToPiano script attached");
-            }
-        }
-        else
-        {
-            Debug.Log("Game Manager not found");
-        }
-        return selectedNotesSet;
-    }
-
-    protected int ChooseNumberToDisplay()
-    {
-        if (alphabeticalNotation)
-        {
-            // Tags for these are on the canvases of the TMP text objects this script is attached to
-            if (transform.parent.CompareTag("MajOctave 0"))
-            {
-                numberToDisplay = selectedNotesSet;
-            } else if (transform.parent.CompareTag("MajOctave 1"))
-            {
-                numberToDisplay = selectedNotesSet + 1;
-            } else if (transform.parent.CompareTag("MajOctave 2"))
-            {
-                numberToDisplay = selectedNotesSet + 2;
-            } else if (transform.parent.CompareTag("MajOctave 3"))
-            {
-                numberToDisplay = selectedNotesSet + 3;
-            }
-        } else
-        {
-            // Tags for these are directly on the TMP text objects
-            if (gameObject.CompareTag("MinOctave 0"))
-            {
-                numberToDisplay = selectedNotesSet;
-            } else if (gameObject.CompareTag("MinOctave 1"))
-            {
-                numberToDisplay = selectedNotesSet + 1;
-            } else if (gameObject.CompareTag("MinOctave 2"))
-            {
-                numberToDisplay = selectedNotesSet + 2;
-            } else if (gameObject.CompareTag("MinOctave 3"))
-            {
-                numberToDisplay = selectedNotesSet + 3;
-            }
-        }
-        return numberToDisplay;
-    }
-
-    protected void ChooseNoteToDisplay()
+    protected void ChooseNotationTypeToDisplay()
     {
         GameObject mainManager = GameObject.Find("MainManager");
         if (mainManager != null)
@@ -102,9 +37,47 @@ public class TextOnKeys : MonoBehaviour
             }
         } else
         {
-            Debug.Log("Main Manager not found. Was the scene loaded directly?");
+            Debug.Log("Main Manager not found. Was the scene loaded directly? Not a problem for notation type, we will default to syllabic.");
             SetToSyllabicNotation();
         }
+    }
+
+    protected int ChooseNumberToDisplay(int notesSetForTextUpdate)
+    {
+        if (alphabeticalNotation)
+        {
+            // Tags for these are on the canvases of the TMP text objects this script is attached to
+            if (transform.parent.CompareTag("MajOctave 0"))
+            {
+                numberToDisplay = notesSetForTextUpdate;
+            } else if (transform.parent.CompareTag("MajOctave 1"))
+            {
+                numberToDisplay = notesSetForTextUpdate + 1;
+            } else if (transform.parent.CompareTag("MajOctave 2"))
+            {
+                numberToDisplay = notesSetForTextUpdate + 2;
+            } else if (transform.parent.CompareTag("MajOctave 3"))
+            {
+                numberToDisplay = notesSetForTextUpdate + 3;
+            }
+        } else
+        {
+            // Tags for these are directly on the TMP text objects
+            if (gameObject.CompareTag("MinOctave 0"))
+            {
+                numberToDisplay = notesSetForTextUpdate;
+            } else if (gameObject.CompareTag("MinOctave 1"))
+            {
+                numberToDisplay = notesSetForTextUpdate + 1;
+            } else if (gameObject.CompareTag("MinOctave 2"))
+            {
+                numberToDisplay = notesSetForTextUpdate + 2;
+            } else if (gameObject.CompareTag("MinOctave 3"))
+            {
+                numberToDisplay = notesSetForTextUpdate + 3;
+            }
+        }
+        return numberToDisplay;
     }
     
     protected virtual void SetToAlphabeticalNotation()
@@ -118,37 +91,15 @@ public class TextOnKeys : MonoBehaviour
         alphabeticalNotation = false;   
     }
 
-    public virtual void Update()
-    {
-
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if(selectedNotesSet != 0)
-            {
-                selectedNotesSet--;
-                UpdateText();
-            }
-        } else if(Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if(selectedNotesSet < 7)
-            {
-                selectedNotesSet++;
-                UpdateText();
-            }
-        }
-    }
-
     public void Awake()
     {
         keyText = GetComponent<TMP_Text>();
-        UpdateText();
     }
 
-    protected void WriteTextOnTheKeyAndCheckForOutOfBounds()
+    protected void WriteTextOnTheKey()
     {
         m_TextComponent = GetComponent<TMP_Text>();
         m_TextComponent.text = notationBasedText + numberToDisplay;
-        // CheckForOutOfBounds(); (Nah, no longer need this Method.)
     }
 
     protected void OnEnable()

@@ -94,4 +94,14 @@ public class GameManager : MonoBehaviour
             separatorLine.SetActive(value: false);
         }
     }
+
+    public static void StopAllSounds()
+    {
+        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+
+        foreach (AudioSource audioSource in allAudioSources)
+        {
+            audioSource.Stop();
+        }
+    }
 }

@@ -18,7 +18,7 @@ public class TextOnAccidentalKeys : TextOnKeys
         {
             notationBasedText = alphabeticalAccidentals[4];
         }
-        alphabeticalNotation = true;
+        base.SetToAlphabeticalNotation();
     }
 
     protected override void SetToSyllabicNotation()
@@ -46,5 +46,6 @@ public class TextOnAccidentalKeys : TextOnKeys
             notationBasedText = syllabicAccidentals[4];
         }
         alphabeticalNotation = false;
+        // NOT using the base of this method, I instead did something special (and felicitous) with the font size.
     }
 }

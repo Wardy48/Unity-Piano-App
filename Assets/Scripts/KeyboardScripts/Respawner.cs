@@ -1,53 +1,19 @@
+// WHAT THIS SCRIPT IS - This script handles the spawning of rightmost keys, that "disappear" at one or two of the two rightmost "notes sets" because there is no tone that high.
+// Thus, this script is attached to two game objects: the parent object of the keys that are not present in notes sets 6 or 7, and to the parent object of the keys that are not present at notes set 7.
+
 using UnityEngine;
 
 public class Respawner : MonoBehaviour
 {
-    private int selectedNotesSet;
-    // Start is called before the first frame update
-    void Start()
+    public void SpawnAndDespawnKeysAsNeeded(int notesSetToSpawnOn)
     {
-        GrabSelectedNotesSetFromItalianKeysToPiano();
-        RespawnNeededKeys();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        GrabSelectedNotesSetFromItalianKeysToPiano();
-        RespawnNeededKeys();
-    }
-    private int GrabSelectedNotesSetFromItalianKeysToPiano()
-    {
-        GameObject gameManager = GameObject.Find("Game Manager");
-
-        if (gameManager != null)
-        {
-            ItalianKeysToPiano italianKeysToPiano = gameManager.GetComponent<ItalianKeysToPiano>();
-
-            if (italianKeysToPiano != null)
-            {
-                selectedNotesSet = italianKeysToPiano.SelectedNotesSet;
-            }
-            else
-            {
-                Debug.Log("Game Manager does not have ItalianKeysToPiano script attached");
-            }
-        }
-        else
-        {
-            Debug.Log("Game Manager not found");
-        }
-        return selectedNotesSet;
-    }
-    void RespawnNeededKeys()
-    {
-        if (selectedNotesSet <= 6 && transform.CompareTag("Respawn on selectedNotesSet <= 6"))
+        if (notesSetToSpawnOn <= 6 && transform.CompareTag("Respawn on selectedNotesSet <= 6"))
         {
             foreach (Transform child in transform)
             {
                 child.gameObject.SetActive(true);
             }            
-        } else if (selectedNotesSet <= 5 && transform.CompareTag("Respawn on selectedNotesSet <= 5"))
+        } else if (notesSetToSpawnOn <= 5 && transform.CompareTag("Respawn on selectedNotesSet <= 5"))
         {
             foreach (Transform child in transform)
             {
