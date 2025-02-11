@@ -1,4 +1,8 @@
 // INHERITANCE. The following class, like TextOnAccidentalKeys, performs all the same actions from TextOnKeys.
+using System.Drawing;
+using TMPro;
+using UnityEngine;
+
 public class TextOnNaturalKeys : TextOnKeys
 {
     // POLYMORPHISM: The two method overrides below add new code to the original method in TextOnKeys, as well as running the base one.

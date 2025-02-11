@@ -10,10 +10,27 @@ public class KeyBehaviour : MonoBehaviour
     private Color originalColour;
     private SpriteRenderer spriteRenderer;
     private string colourToUseForTheKeys;
+    TextOnNaturalKeys textOnNaturalKeysScript;
+    TextOnAccidentalKeys textOnAccidentalKeysScript;
+    bool isKeyNatural;
 
     // Start is called before the first frame update
     void Start()
-    {   
+    {
+        // Get the script of the text component of the key, be it natural or accidental.
+        if (transform.GetChild(0).GetChild(0).GetComponent<TextOnNaturalKeys>() != null)
+        {
+            textOnNaturalKeysScript = transform.GetChild(0).GetChild(0).GetComponent<TextOnNaturalKeys>();
+            isKeyNatural = true;
+        } else if (transform.GetChild(0).GetChild(0).GetComponent<TextOnAccidentalKeys>() != null)
+        {
+            textOnAccidentalKeysScript = transform.GetChild(0).GetChild(0).GetComponent<TextOnAccidentalKeys>();
+            isKeyNatural = false;
+        } else
+        {
+            Debug.LogWarning("A key's KeyBehaviour script couldn't reference the text component of that key.");
+        }
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         originalSpriteColour = spriteRenderer.color;
 
@@ -85,10 +102,9 @@ public class KeyBehaviour : MonoBehaviour
         spriteRenderer.color = originalSpriteColour;
     }
 
-    public void PlayTone(int notesSetToUse)
+    public void PlayTone(int notesSetToUse, string keyColourSetting)
     {
-        ChangeKeyColourBecauseTheKeyIsBeingPressed();
-
+        // Play the tone
         if (allAudioSources[notesSetToUse] != null)
         {
             allAudioSources[notesSetToUse].Play();
@@ -98,13 +114,24 @@ public class KeyBehaviour : MonoBehaviour
         {
             Debug.Log("No AudioSource component to play on this game object: " + gameObject.name);
         }
+        
+        ChangeKeyColourBecauseTheKeyIsBeingPressed();
+        
+        // Change the colour of the key texts as needed
+        if (textOnNaturalKeysScript != null)
+        {
+            textOnNaturalKeysScript.ChangeTextColourIfNeeded(isKeyNatural, keyColourSetting);
+        } else if (textOnAccidentalKeysScript != null) {
+            textOnAccidentalKeysScript.ChangeTextColourIfNeeded(isKeyNatural, keyColourSetting);
+        } else
+        {
+            Debug.Log("Cannot see whether the key's text's colour should be changed.");
+        }
+
     }
 
     public void StopTone(int notesSetToUse)
     {
-
-        ChangeKeyColourBecauseTheKeyIsReleased();
-
         if (allAudioSources[notesSetToUse] != null)
         {
             allAudioSources[notesSetToUse].Stop();
@@ -114,12 +141,23 @@ public class KeyBehaviour : MonoBehaviour
         {
             Debug.Log("No AudioSource component to stop on this game object: " + gameObject.name);
         }
+
+        ChangeKeyColourBecauseTheKeyIsReleased();
+
+        // Set text colour back to normal
+        if (textOnNaturalKeysScript != null)
+        {
+            textOnNaturalKeysScript.SetTextColourBackToNormal(isKeyNatural);
+        } else if (textOnAccidentalKeysScript != null)
+        {
+            textOnAccidentalKeysScript.SetTextColourBackToNormal(isKeyNatural);
+        }
     }
 
     void OnMouseDown()
     {
         Debug.Log(gameObject.name + " was successfully clicked with the mouse, and could sense it. Because it has a collider.");
-        PlayTone(KeysManager.Instance.selectedNotesSet);
+        PlayTone(KeysManager.Instance.selectedNotesSet, MainManager.Instance.selectedColour);
     }
     void OnMouseUp()
     {

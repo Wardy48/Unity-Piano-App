@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 // Note: other classes from other scripts will inherit from this class, giving more sense to some of the things on it.
 public class TextOnKeys : MonoBehaviour
@@ -90,6 +91,52 @@ public class TextOnKeys : MonoBehaviour
     {
         keyText.fontSize = 3;
         alphabeticalNotation = false;   
+    }
+
+    internal virtual void ChangeTextColourIfNeeded(bool isKeyWhite, string colourTheKeyWillTurnIntoWhenPressed)
+    {
+        if (isKeyWhite)
+        {
+            switch (colourTheKeyWillTurnIntoWhenPressed)
+            {
+                case "yellow":
+                    break;
+                case "green":
+                    m_TextComponent.color = Color.white;
+                    break;
+                case "blue":
+                    m_TextComponent.color = Color.white;
+                    break;
+                case "red":
+                    m_TextComponent.color = Color.white;
+                    break;
+            }
+        } else
+        {
+            switch (colourTheKeyWillTurnIntoWhenPressed)
+            {
+                case "yellow":
+                    m_TextComponent.color = Color.black;
+                    break;
+                case "green":
+                    break;
+                case "blue":
+                    break;
+                case "red":
+                    break;
+            }
+        }
+    }
+
+    internal void SetTextColourBackToNormal(bool isKeyWhite)
+    {
+        if (isKeyWhite)
+        {
+            m_TextComponent.color = Color.black;
+        } else {
+            m_TextComponent.color = Color.white;
+        }
+        Debug.Log($"The colour of {gameObject.name} should have been set back to normal.");
     }
 
     public void Awake()

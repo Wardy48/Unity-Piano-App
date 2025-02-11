@@ -22,7 +22,7 @@ public class KeysManager : MonoBehaviour
 
     void Start()
     {
-        LoadNotesSelection();
+        LoadKeysManagerDataFromJSON();
         HandleKeysSpawning();
         CommunicateNotesSelectionToAllTextDisplays();
         MapAllKeysForCorrespondingPianoKeys();
@@ -166,7 +166,7 @@ public class KeysManager : MonoBehaviour
         
         if (gameObject.TryGetComponent<KeyBehaviour>(out var keyBehaviour))
         {
-            keyBehaviour.PlayTone(selectedNotesSet);
+            keyBehaviour.PlayTone(selectedNotesSet, MainManager.Instance.selectedColour);
         }
         else
         {
@@ -191,41 +191,42 @@ public class KeysManager : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
-        public int selectedNotesSetToStoreInJSON;
+        public int selectedNotesSetJSON;
     }
 
-    public void SaveNotesSelection()
+    public void SaveKeysManagerDataToJSON()
     {
         SaveData data = new SaveData();
-        data.selectedNotesSetToStoreInJSON = selectedNotesSet;
+        data.selectedNotesSetJSON = selectedNotesSet;
 
         string json = JsonUtility.ToJson(data);  
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        File.WriteAllText(Application.persistentDataPath + "/keysManagerData.json", json);
     }
-    public void LoadNotesSelection()
+    public void LoadKeysManagerDataFromJSON()
     {
-        string path = Application.persistentDataPath + "/savefile.json";
+        string path = Application.persistentDataPath + "/keysManagerData.json";
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            selectedNotesSet = data.selectedNotesSetToStoreInJSON;
+            selectedNotesSet = data.selectedNotesSetJSON;
         } else
         {
             selectedNotesSet = 3;
+            Debug.Log("The selected notes set was not loaded from JSON, either due to an error or because it does not exist. Defaulted to set three.");
         }
     }
     
     // IMPORTANT: OnApplicationQuit() may not be called in time on mobile.
     void OnApplicationQuit()
     {
-        SaveNotesSelection();
+        SaveKeysManagerDataToJSON();
     }
 
     // OnDestroy() is called when "stopping play mode" on the Unity Editor, or closing the scene.
     void OnDestroy()
     {
-        SaveNotesSelection();
+        LoadKeysManagerDataFromJSON();
     }
 }
