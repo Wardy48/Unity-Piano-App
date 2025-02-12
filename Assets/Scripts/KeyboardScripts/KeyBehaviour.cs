@@ -53,7 +53,7 @@ public class KeyBehaviour : MonoBehaviour
         if(keyIsBlack)
         {
             // Changes the key to white, only for the time the sprite colour is being applied.
-            spriteRenderer.color = new Color(1f, 1f, 1f);
+            spriteRenderer.color = Color.white;
         }
 
         // This is the more core renderer.

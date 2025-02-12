@@ -11,7 +11,6 @@ using System;
 public class MainManager : MonoBehaviour
 {
     internal bool syllabicNotation;
-    // TODO: make sure this selectedColour gets stored in JSON, for data persistence across sections.
     internal string selectedColour { get; private set; }
     internal bool requiresTextOnWhiteKeysToBeTurnedWhite { get; private set; }
     internal bool requiresTextOnBlackKeysToBeTurnedBlack { get; private set; }
@@ -45,7 +44,6 @@ public class MainManager : MonoBehaviour
         }
     }
 
-    // TODO: must also implement a default colour for the first time the player enters the game.
     // TODO: also ensure the text on the keys remains readable despite the highlighting, which can involve letting it temporarily change.
 
     void Start()
