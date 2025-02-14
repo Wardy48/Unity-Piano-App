@@ -151,7 +151,7 @@ public class KeysManager : MonoBehaviour
 
     private int ShiftNotesInputRight()
     {
-        if(selectedNotesSet < 7)
+        if(selectedNotesSet < 5)
         {
             return selectedNotesSet + 1;
         } else

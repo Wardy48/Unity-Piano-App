@@ -24,8 +24,7 @@ TagManager:
   - Fa#
   - Sol#
   - La#
-  - Respawn on selectedNotesSet <= 6
-  - Respawn on selectedNotesSet <= 5
+  - Empty parents of keys that despawn on 5
   layers:
   - Default
   - TransparentFX

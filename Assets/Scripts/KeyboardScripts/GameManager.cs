@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
         bool alphabeticalNotation = SeeWhichNotationIsEnabled();
         for (int i = 0; i < parent.childCount; i++)
         {
-            // Both the "NATURALS" parent and "ACCIDENTALS" parent have mostly keys as their children, but also four empty objects as children (two for "NATURALS" and two for "ACCIDENTALS") that are the parents of other keys in the same way, but these parents' tag names contain "Respawn". Hence, the following "if" statement toggles/untoggles text from children that do not contain "Respawn" in the tag name, and reiterates itself for those that do, treating the latter children as parents.
-            if(!parent.GetChild(i).tag.Contains("Respawn"))
+            // Both the "NATURALS" parent and "ACCIDENTALS" parent have mostly keys as their children, but also four empty objects as children (two for "NATURALS" and two for "ACCIDENTALS") that are the parents of other keys in the same way, but these parents' tag names contain "keys that can despawn". Hence, the following "if" statement toggles/untoggles text from children that do not contain "keys that can despawn" in the tag name, and reiterates itself for those that do, treating the latter children as parents.
+            if(!parent.GetChild(i).name.Contains("Despawn-on-set-5"))
             {
                 Transform pianoKey = parent.GetChild(i);
                 if(alphabeticalNotation)
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
                 else{ToggleIfNotLabelledDo(pianoKey);}
             } else
             {
-                ToggleTextOnKeys(parent.GetChild(i));
+                ToggleTextOnKeys(parent.GetChild(i).transform);
             }
         }
     }
