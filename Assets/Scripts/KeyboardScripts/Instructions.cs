@@ -22,7 +22,7 @@ public class Instructions : MonoBehaviour
         +"The naturals from the second F/Fa (F1/Fa2 on the first octaves set) to the far right’s B/Si (B3/Si3 on the first octaves set)\n"
         +"are played by <i>Left Shift</i> through to three keys to the right of <i>M</i> (again, what computer key this is depends on your keyboard variant).\n"
         +"Again, the computer keys above this row play the corresponding accidentals.\n\n"
-        +"<b>Because of compatibility being limited to ANSI keyboards, the piano key right of <i>Left Shift</i>'s piano key is played by <i>Z</i>.\n"
+        +"<b>Because of indexing being inherent to ANSI keyboards, the piano key right of <i>Left Shift</i>'s piano key is played by <i>Z</i>.\n"
         +"The key in between these two on ISO keyboards is not usable, but you can still play all piano keys.</b>";
     }
 }

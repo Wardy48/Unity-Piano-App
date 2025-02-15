@@ -227,6 +227,6 @@ public class KeysManager : MonoBehaviour
     // OnDestroy() is called when "stopping play mode" on the Unity Editor, or closing the scene.
     void OnDestroy()
     {
-        LoadKeysManagerDataFromJSON();
+        SaveKeysManagerDataToJSON();
     }
 }
